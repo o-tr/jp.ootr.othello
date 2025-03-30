@@ -1,0 +1,20 @@
+{
+  "name": "jp.ootr.othello",
+  "rootNamespace": "",
+  "references": [
+    "UdonSharp.Runtime",
+    "VRC.Udon",
+    "VRC.Udon.Serialization.OdinSerializer",
+    "Unity.TextMeshPro",
+    "jp.ootr.common"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

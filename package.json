@@ -1,0 +1,21 @@
+﻿{
+  "name": "jp.ootr.othello",
+  "displayName": "Othello",
+  "version": "0.0.1",
+  "license": "MIT",
+  "unity": "2022.3",
+  "description": "Simple Othello gimmick for VRChat",
+  "author": {
+    "email": "ootr@ootr.jp",
+    "name": "ootr",
+    "url": "https://github.com/o-tr"
+  },
+  "url": "https://github.com/o-tr/jp.ootr.othello/releases/latest/download/release.zip",
+  "changelogUrl": "https://github.com/o-tr/jp.ootr.othello/releases/",
+  "licensesUrl": "https://github.com/o-tr/jp.ootr.othello/blob/release/LICENSE",
+  "documentationUrl": "https://docs.ootr.jp/",
+  "vpmDependencies": {
+    "com.vrchat.base": "^3.6.1",
+    "com.vrchat.worlds": "^3.6.1"
+  }
+}
