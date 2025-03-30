@@ -1,6 +1,6 @@
 ﻿{
   "name": "jp.ootr.othello",
-  "displayName": "Othello",
+  "displayName": "ootr式オセロ盤",
   "version": "0.0.1",
   "license": "MIT",
   "unity": "2022.3",
