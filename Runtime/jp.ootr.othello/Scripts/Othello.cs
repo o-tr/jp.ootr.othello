@@ -1,5 +1,6 @@
 ﻿using System;
 using jp.ootr.common;
+using TMPro;
 using UdonSharp;
 using UnityEngine;
 
@@ -19,16 +20,29 @@ namespace jp.ootr.othello
         White = 2
     }
 
+    public enum GameResult
+    {
+        Draw = 0,
+        BlackWin = 1,
+        WhiteWin = 2
+    }
+
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class Othello : BaseClass
     {
         [SerializeField] [UdonSynced] private Cell[] _board;
 
         [SerializeField] private OthelloCell[] cells;
-        [SerializeField] private OthelloUI ui;
 
         private readonly int[] _directions = { -8, -7, 1, 9, 8, 7, -1, -9 };
         [UdonSynced] private Player _currentPlayer;
+        
+        
+        [SerializeField] private TextMeshProUGUI _blackStoneCount;
+        [SerializeField] private TextMeshProUGUI _whiteStoneCount;
+        [SerializeField] private TextMeshProUGUI _turnText;
+
+        [SerializeField] private GameObject _inGameUI;
 
         private void Start()
         {
@@ -48,7 +62,6 @@ namespace jp.ootr.othello
 
             for (var i = 0; i < cells.Length; i++)
                 cells[i].Init(this);
-            ui.Init(this);
 
             UpdateCells();
         }
@@ -269,7 +282,7 @@ namespace jp.ootr.othello
         {
             base._OnDeserialization();
             UpdateCells();
-            if (IsGameOver()) ui.OnGameOver(GetWinner() == "Black");
+            if (IsGameOver()) OnGameOver();
         }
 
         public int CountStones(Player player)
@@ -302,14 +315,14 @@ namespace jp.ootr.othello
             return !blackHasMove && !whiteHasMove;
         }
 
-        public string GetWinner()
+        public GameResult GetWinner()
         {
             var blackCount = CountStones(Player.Black);
             var whiteCount = CountStones(Player.White);
 
-            if (blackCount > whiteCount) return "Black";
-            if (whiteCount > blackCount) return "White";
-            return "Draw";
+            if (blackCount > whiteCount) return GameResult.BlackWin;
+            if (whiteCount > blackCount) return GameResult.WhiteWin;
+            return GameResult.Draw;
         }
 
         public Player GetCurrentPlayer()
@@ -345,15 +358,43 @@ namespace jp.ootr.othello
             for (var i = 0; i < validMoves.Length; i++)
                 cells[validMoves[i]].SetCell((CellType)((int)GetCurrentPlayer() + 2));
 
-            ui.UpdateIngameUI(CountStones(Player.Black), CountStones(Player.White), GetCurrentPlayer() == Player.Black);
+            UpdateIngameUI(GetCurrentPlayer() == Player.Black);
+        }
+        
+#region UI
+        public void OnResetClick()
+        {
+            InitializeGame();
         }
 
-        private bool Contains(int[] array, int value)
+        private void UpdateIngameUI(bool isBlackTurn)
         {
-            for (var i = 0; i < array.Length; i++)
-                if (array[i] == value)
-                    return true;
-            return false;
+            var black = CountStones(Player.Black);
+            var white = CountStones(Player.White);
+            _blackStoneCount.text = black.ToString();
+            _whiteStoneCount.text = white.ToString();
+            _turnText.text = isBlackTurn ? "Black Turn" : "White Turn";
         }
+
+        private void OnGameOver()
+        {
+            var black = CountStones(Player.Black);
+            var white = CountStones(Player.White);
+            _blackStoneCount.text = black.ToString();
+            _whiteStoneCount.text = white.ToString();
+            switch (GetWinner())
+            {
+                case GameResult.BlackWin:
+                    _turnText.text = "Black Win!";
+                    break;
+                case GameResult.WhiteWin:
+                    _turnText.text = "White Win!";
+                    break;
+                case GameResult.Draw:
+                    _turnText.text = "Draw";
+                    break;
+            }
+        }
+#endregion
     }
 }
