@@ -1,7 +1,7 @@
 ﻿{
   "name": "jp.ootr.othello",
   "displayName": "ootr式オセロ盤",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "unity": "2022.3",
   "description": "Simple Othello gimmick for VRChat",
